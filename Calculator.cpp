@@ -1,12 +1,3 @@
-/**************************************************************/
-/*                                                            */
-/*  CS 211 - Programming Practicum                            */
-/*  Instructor: Nasim Mobasheri                               */
-/*  Name: Samuel Okechukwu                                    */
-/*  Title: Calculator Program.                                */
-/*                                                            */
-/**************************************************************/
-
 #include <cstring>
 #include <deque>
 #include "Token.h"
@@ -355,8 +346,6 @@ int main(int argc, char *argv[])
 
 double processExpression (Token inputToken, TokenReader *tr, bool doPrint, double ans)
 {
- /**********************************************/
- /* Declare both stack head pointers here      */
  std::deque<double> val_stack;
  std::deque<char> op_stack, func_stack;
     
