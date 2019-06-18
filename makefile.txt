@@ -1,0 +1,14 @@
+eval: Calculator.o Token.o Sequences.o
+	g++ Calculator.o Token.o Sequences.o -o eval
+
+Calculator.o: Calculator.cpp Token.h Sequences.h
+	g++ -c Calculator.cpp
+
+Token.o: Token.cpp Token.h CheckExpression.h
+	g++ -c Token.cpp
+
+Sequences.o: Sequences.cpp Sequences.h
+	g++ -c Sequences.cpp
+
+clean:
+	rm Calculator.o Token.o Sequences.o eval
