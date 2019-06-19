@@ -1,4 +1,3 @@
-#include <cstring>
 #include <deque>
 #include "Token.h"
 #include "Sequences.h"
@@ -7,34 +6,34 @@ bool debugMode = false;
 
 void printCommands()
 {
- printf ("The commands for this program are:\n\n");
- printf ("q - to quit the program\n");
- printf ("# - to list functions and descriptions\n");
- printf ("or any infix mathematical expression using operators of (), *, /, +, -, ^\n");
- printf ("all lists must be comma-separated\n");
+ std::cout << "The commands for this program are:\n\n"
+           << "q - to quit the program\n"
+           << "# - to list functions and descriptions\n"
+           << "or any infix mathematical expression using operators of (), *, /, +, -, ^\n"
+           << "all lists must be comma-separated\n";
 }
 
 void printFunctions() {
-    printf ("The functions for this program are:\n\n");
-    printf("!     - compute factorial.               E.g. a!\n");
-    printf("abs   - compute absolute value.          E.g. abs(a)\n");
-    printf("sqrt  - compute square root.             E.g. sqrt(a)\n");
-    printf("log   - compute logarithm to base 10.    E.g. log(a)\n");
-    printf("logb  - compute logarithm to base b.     E.g. log(b,a)\n");
-    printf("ln    - compute logarithm to base e.     E.g. log(a)\n");
-    printf("sin   - compute sine in degrees.         E.g. sin(a)\n");
-    printf("cos   - compute cosine in degrees.       E.g. cos(a)\n");
-    printf("tan   - compute tan in degrees.          E.g. tan(a)\n");
-    printf("asin  - compute arc sine in degrees.     E.g. sin(a)\n");
-    printf("acos  - compute arc cosine in degrees.   E.g. cos(a)\n");
-    printf("atan  - compute arc tan in degrees.      E.g. tan(a)\n");
-    printf("nCr   - compute nCr                      E.g. nCr(a,b)\n");
-    printf("nPr   - compute nPr                      E.g. nPr(a,b)\n");
-    printf("mean  - compute mean of a series         E.g. mean(a1, a2, ..., ak)\n");
-    printf("stdev - compute std. dev. of a series    E.g. stdev(a1, a2, ..., ak)\n");
-    printf("sum   - compute sum of a series          E.g. sum(1:n) User will be prompted for expression\n");
-    printf("seq   - perform operations on a sequence E.g. seq(1, 1, 2, 3, 5)\n");
-    printf("where 'a' & 'b' may be a number or an expression\n");
+    std::cout << "The functions for this program are:\n\n"
+              << "!     - compute factorial.               E.g. a!\n"
+              << "abs   - compute absolute value.          E.g. abs(a)\n"
+              << "sqrt  - compute square root.             E.g. sqrt(a)\n"
+              << "log   - compute logarithm to base 10.    E.g. log(a)\n"
+              << "logb  - compute logarithm to base b.     E.g. log(b,a)\n"
+              << "ln    - compute logarithm to base e.     E.g. log(a)\n"
+              << "sin   - compute sine in degrees.         E.g. sin(a)\n"
+              << "cos   - compute cosine in degrees.       E.g. cos(a)\n"
+              << "tan   - compute tan in degrees.          E.g. tan(a)\n"
+              << "asin  - compute arc sine in degrees.     E.g. sin(a)\n"
+              << "acos  - compute arc cosine in degrees.   E.g. cos(a)\n"
+              << "atan  - compute arc tan in degrees.      E.g. tan(a)\n"
+              << "nCr   - compute nCr                      E.g. nCr(a,b)\n"
+              << "nPr   - compute nPr                      E.g. nPr(a,b)\n"
+              << "mean  - compute mean of a series         E.g. mean(a1, a2, ..., ak)\n"
+              << "stdev - compute std. dev. of a series    E.g. stdev(a1, a2, ..., ak)\n"
+              << "sum   - compute sum of a series          E.g. sum(1:n) User will be prompted for expression\n"
+              << "seq   - perform operations on a sequence E.g. seq(1, 1, 2, 3, 5)\n"
+              << "where 'a' & 'b' may be a number or an expression\n";
 }
 
 double processExpression (Token inputToken, TokenReader *tr, bool doPrint = true, double ans = 0);
@@ -47,7 +46,7 @@ double eval(double v1, double v2, char c) {
         case '/': return (v1 / v2);
         case '^': return pow(v1, v2);
         default:
-            printf ("Error here. Operator '%c' not recognized. Returned -999.0\n", c);
+            std::cout << "Error!. Operator '" << c << "' not recognized.\n";
             return -999.0;
     }
 }
@@ -64,7 +63,7 @@ void popAndEval(std::deque<double>& val_stack, std::deque<char>& op_stack) {
 
 double factorial(int num, int breakpoint = 0) {
     if (num < 0) {
-        printf("Can not perform factorial on negative numbers\n");
+        std::cout << "Can not perform factorial on negative numbers\n";
         return -999.0;
     }
     double result = 1.0;
@@ -85,45 +84,44 @@ double nPr(int n, int r) {
     return factorial(n, n-r);
 }
 
+std::string to_string (int val) {
+    char s[50];
+    int count = 49;
+    s[count--] = '\0';
+    s[count--] = '0' + val%10;
+    while (val >= 10) {
+        val /= 10;
+        s[count--] = '0' + val%10;
+    }
+    ++count;
+    return std::string(s+count);
+}
+
 double sum(int i, int n) {
-    while (i < 1) {
-        printf("Invalid index. Index must be greater than 0\n");
-        scanf("%d",&i); getchar();
+    while (i < 0) {
+        std::cout << "Invalid index. Start Index must be positive\n Enter start index: ";
+        std::cin >> i;
     }
-    while (n >= 1000) {
-        printf("Invalid index. End Index must be less than 1000\n");
-        scanf("%d",&n); getchar();
+    while (n < 0) {
+        std::cout << "Invalid index. End Index must be positive\n Enter end index: ";
+        std::cin >> n;
     }
-    int count = 0, index = 0, indexArr[20];
-    char s[70];
-    char *temp = new char[70];
-    printf("Enter expression for sum in terms of 'j': ");
-    fgets (temp, 70, stdin);
-    for (int j = 0; temp[j] != '\0'; j++) {
-        s[index++] = temp[j];
-        if (temp[j] == 'j') {
-            indexArr[count++] = index-1;
-            s[index++] = ' ';
-            s[index++] = ' ';
-        }
-    }
-    s[index] = '\0';
-    delete [] temp;
+    std::string s, temp;
+    std::cout << "Enter expression for sum in terms of 'j': ";
+    std::getline (std::cin, s);
     Token inputToken;
-    double result = 0;
-    while (i <= n) {
-        for (int j = 0; j < count; j++) {
-            if (i < 10)
-                s[indexArr[j]] = '0'+ i;
-            else if (i < 100) {
-                s[indexArr[j]] = '0'+ i/10; s[indexArr[j]+1] = '0'+ i%10; }
-            else {
-                s[indexArr[j]] = '0'+ i/100; s[indexArr[j]+1] = '0'+ (i%100)/10; s[indexArr[j]+2] = '0'+ i%10; }
-        }
-        TokenReader tr(s);
+    double result = 0; 
+    for (; i <= n; ++i) {
+        temp = s;
+        size_t v = temp.find('j');
+        std::string t = to_string(i);
+        while (v != std::string::npos) {
+            temp.replace(v, 1, t);
+            v = temp.find('j');
+        }        
+        TokenReader tr(temp.c_str());
         inputToken = tr.getNextToken();
         result += processExpression(inputToken, &tr, false);
-        ++i;
     }
     return result;
 }
@@ -275,7 +273,7 @@ void evaluateFunction(std::deque<double>& val_stack, std::deque<char>& op_stack,
             free(vals);
             break;
         default:
-            printf ("Error here. Invalid Function\n");
+            std::cout << "Error!. Invalid Function\n";
             break;
     }
     
@@ -286,9 +284,9 @@ int main(int argc, char *argv[])
     /***************************************************************/
     /* Add code for checking command line arguments for debug mode */
     for (int n = 0; n < argc; ++n) {
-        if (strcmp(argv[n], "-d") == 0) {
+        if (argv[n] == std::string("-d")) {
             debugMode = true;
-            printf("Debugging mode ON\n");
+            std::cout << "Debugging mode ON\n";
         }
     }
     
@@ -297,9 +295,8 @@ int main(int argc, char *argv[])
     Token inputToken;
     TokenReader tr;
 
-    printf ("Starting Expression Evaluation Program. Enter '?' to list the accepted commands\n\n");
-    printf ("Enter Expression: ");
-
+    std::cout << "Starting Expression Evaluation Program. Enter '?' to list the accepted commands\n\n"
+              << "Enter Expression: ";
 
     inputToken = tr.getNextToken ();
 
@@ -323,29 +320,29 @@ int main(int argc, char *argv[])
       }
       else if(inputToken.equalsType(ERROR))
       {
-       printf ("Invalid Input - For a list of valid commands, type ?\n");
+       std::cout << "Invalid Input - For a list of valid commands, type ?\n";
        tr.clearToEoln();
       }
       else if(inputToken.equalsType(EOLN))
       {
-       printf ("Blank Line - Do Nothing\n");
-       /* blank line - do nothing */
+       std::cout << "No input found\n"; // blank line - do nothing
       }
       else
       {
        ans = processExpression(inputToken, &tr, true, ans);
       }
-
-      printf ("\nEnter Expression: ");
+      std::cout << "\nEnter Expression: ";
       inputToken = tr.getNextToken ();
     }
 
-  printf ("Quitting Program\n");
+  std::cout << "Quitting Program\n";
   return 1;
 }
 
 double processExpression (Token inputToken, TokenReader *tr, bool doPrint, double ans)
 {
+ /**********************************************/
+ /* Declare both stack head pointers here      */
  std::deque<double> val_stack;
  std::deque<char> op_stack, func_stack;
     
@@ -360,7 +357,7 @@ double processExpression (Token inputToken, TokenReader *tr, bool doPrint, doubl
         double num = inputToken.getValue();
         /* Print out the number when in debugMode */
         if (debugMode) {
-            printf ("Val: %f, ", num);
+            std::cout << "Val: " << num << ", ";
         }
         val_stack.push_front(num);
       }
@@ -371,11 +368,11 @@ double processExpression (Token inputToken, TokenReader *tr, bool doPrint, doubl
         if (c == 'a') {
             val_stack.push_front(ans);
             if (debugMode)
-                printf ("Val: %f, ", ans);
+                std::cout << "Val: " << ans << ", ";
         }
         else {
             if (debugMode)
-               printf ("Funct: %s, ", interpretFunct(c));
+               std::cout << "Funct: " << interpretFunct(c) << ", ";
             func_stack.push_front(c);
         }
     }
@@ -386,7 +383,7 @@ double processExpression (Token inputToken, TokenReader *tr, bool doPrint, doubl
        char val = inputToken.getOperator();
        // Print out the operator when in debugMode
        if (debugMode) {
-           printf ("OP: %c, ", val);
+           std::cout << "OP: " << val << ", ";
        }
        if (val == '(')
            op_stack.push_front(val);
@@ -430,7 +427,7 @@ double processExpression (Token inputToken, TokenReader *tr, bool doPrint, doubl
                    op_stack.pop_front();
            }
            if (op_stack.empty())
-               printf("There was an error in your input please try again\n");
+               std::cout << "There was an error in your input please try again\n";
            else
                op_stack.pop_front();
        }
@@ -442,17 +439,13 @@ double processExpression (Token inputToken, TokenReader *tr, bool doPrint, doubl
      popAndEval(val_stack, op_stack);
 
  if(!(val_stack.empty())) {
-     if (doPrint) {
-         if (val_stack.front() > 10000)
-             printf("Result: %.10e\n", val_stack.front());
-         else
-             printf("Result: %f\n", val_stack.front());
-     }
+     if (doPrint)
+         std::cout << "Result: " << val_stack.front() << '\n';
      result = val_stack.front();
      val_stack.pop_front();
  }
  if (!(val_stack.empty())) {
-     printf("Error here. Values Stack is not empty.\n");
+     std::cout << "Error here. Values Stack is not empty.\n";
  }
  return result;
 }
