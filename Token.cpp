@@ -167,7 +167,7 @@
   }
 
   // initialize the TokenReader class to read from Standard Input
-  TokenReader::TokenReader(char input[])
+  TokenReader::TokenReader(const char* input)
   {
     // set to read from Standard Input
     if (input != NULL) {
