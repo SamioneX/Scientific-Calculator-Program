@@ -42,7 +42,7 @@ class TokenReader
      char getPrev(int curr);
     
   public:
-    TokenReader(char input[] = NULL);
+    TokenReader(const char* input = NULL);
     void clearToEoln();
     Token getNextToken();
 };
