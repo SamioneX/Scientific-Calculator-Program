@@ -2,16 +2,16 @@
 #define SEQUENCES_H
 
 #include <cmath>
-#include <cstdio>
+#include <iostream>
 
-typedef unsigned long long sz;
+typedef long long sz;
 
 void printSequence();
-int stdfib(int n);
+sz stdfib(int n);
 double fib(double x, double y, int index);
-int stdfibSum(int n, int k = 0);
+sz stdfibSum(int n, int k = 0);
 double fibSum(int n, double x, double y);
-int sumStdFibSquares(int n, int k = 0);
+sz sumStdFibSquares(int n, int k = 0);
 double sumFibSquares(int n, double x = 1, double y = 1);
 double sumFibCubes(int n, double x = 1, double y = 1);
 double sumArrSquares(double a, double d, int n);
