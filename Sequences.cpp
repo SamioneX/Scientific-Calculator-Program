@@ -1,25 +1,24 @@
 #include "Sequences.h"
 
 void printSequence() {
-    printf("\nThe sequence operations for this program are:\n");
-    printf("1. Sequence type (arithmetic, geometric, harmonic, fibonacci, etc.)\n");
-    printf("2. Common difference\n");
-    printf("3. Common ratio\n");
-    printf("4. Next term\n");
-    printf("5. Nth term\n");
-    printf("6. Value given index\n");
-    printf("7. Sum\n\n");
-    printf("Example: seq(2, 4, 6, 8)\n");
-    printf("Enter operation to perform: 1\n");
-    printf("Sequence type: arithmetic\n");
+    std::cout << "\nThe sequence operations for this program are:\n"
+              << "2. Common difference\n"
+              << "3. Common ratio\n"
+              << "4. Next term\n"
+              << "5. Nth term\n"
+              << "6. Value given index\n"
+              << "7. Sum\n\n"
+              << "Example: seq(2, 4, 6, 8)\n"
+              << "Enter operation to perform: 1\n"
+              << "Sequence type: arithmetic\n";
 }
 
 // Create an array for memoization of fibonacci numbers;
-int f[1000] = {0};
+sz f[1000] = {0};
 
 
 // Returns n'th Fibonacci number using table f[] 
-int stdfib(int n) 
+sz stdfib(int n) 
 { 
     // Base cases 
     if (n == 0) 
@@ -31,7 +30,7 @@ int stdfib(int n)
     if (f[n]) 
         return f[n]; 
   
-    int k = (n & 1)? (n+1)/2 : n/2; 
+    sz k = (n & 1)? (n+1)/2 : n/2; 
   
     // Applying above formula [Note value n&1 is 1 
     // if n is odd, else 0]. 
@@ -55,7 +54,7 @@ double fib(double x, double y, int index) {
 }
 
 // Computes value of sum of first n Fibonacci numbers 
-int stdfibSum(int n, int k) 
+sz stdfibSum(int n, int k) 
 { 
     if (k == 0)
         return stdfib(n+2) - 1;
@@ -81,7 +80,7 @@ double fibSum(int n, double x, double y) {
     return sum; 
 }
 
-int sumStdFibSquares(int n, int k) 
+sz sumStdFibSquares(int n, int k) 
 { 
     if (k == 0)
         return stdfib(n) * stdfib(n + 1);
@@ -132,12 +131,12 @@ double sumArrSquares(double a, double d, int n) {
 
 double sumArrCubes(double a, double d, int n) {
     a = pow(a, 1.0/3);
-    int x = pow(n*(n+1)/2, 2);       //Sum n^3
-    int y = n*(n+1)*(2*n+1)/6;       //Sum n^2
-    int z = n*(n+1)/2;               //Sum n
-    int b = pow(d,3);
-    int c = pow(d,2);
-    int e = pow(a,2);
+    sz x = pow(n*(n+1)/2, 2);       //Sum n^3
+    sz y = n*(n+1)*(2*n+1)/6;       //Sum n^2
+    sz z = n*(n+1)/2;               //Sum n
+    sz b = pow(d,3);
+    sz c = pow(d,2);
+    sz e = pow(a,2);
     return (x*b - 3*y*b + 3*z*b - b + 3*a*c*y - 6*z*a*c + 3*a*c + 3*z*e*d - 3*e*d + pow(a,3));
 }
 
@@ -253,7 +252,7 @@ char seqCalc(double val[], int size, double &next, double &prev, double &cd, dou
 
 void seq(double vals[], int n) {
     if (n < 3) {
-        printf("sequence must have at least 3 arguments\n");
+        std::cout <<"sequence must have at least 3 arguments\n";
         return;
     }
     double cd, cr, next, prev, hd, x, y;
@@ -261,71 +260,72 @@ void seq(double vals[], int n) {
     bool isStdFib = false;
     char ch = seqCalc(vals, n, next, prev, cd, cr, hd, isStdFib, x, y, k);
     if (ch == '$') {
-        printf("Sequence type: Unknown\n");
+        std::cout <<"Sequence type: Unknown\n";
         return;
     }
     while (true) {
-        printf("\nEnter operation to perform, < to go back, or ? to view instructions: ");
-        char c = getchar(); getchar(); 
+        std::cout <<"\nEnter operation to perform, < to go back, or ? to view instructions: ";
+        char c;
+        std::cin >> c;
         if (c == '<')
             return;
         if (c == '?')
             printSequence();
         else if (c == '1') {
             switch(ch) {
-                case 'g': printf("Sequence type: geometric\n"); break;
-                case 'a': printf("Sequence type: arithmetic\n"); break;
-                case 'h': printf("Sequence type: harmonic\n"); break;
-                case 'f': printf("Sequence type: fibonacci, with a1 = %f, and a2 = %f\n", y, x); break;
-                case 'x': printf("Sequence type: arithmetic squares\n"); break;
-                case 'y': printf("Sequence type: harmonic squares\n"); break;
-                case 'z': printf("Sequence type: fibonacci squares, with a1 = %f, and a2 = %f\n", pow(y,2), pow(x,2)); break;
-                case 't': printf("Sequence type: arithmetic cubes\n"); break;
-                case 'u': printf("Sequence type: harmonic cubes\n"); break;
-                case 'v': printf("Sequence type: fibonacci cubes, with a1 = %f, and a2 = %f\n", pow(y,3), pow(x,3)); break;
+                case 'g': std::cout << "Sequence type: geometric\n"; break;
+                case 'a': std::cout << "Sequence type: arithmetic\n"; break;
+                case 'h': std::cout << "Sequence type: harmonic\n"; break;
+                case 'f': std::cout << "Sequence type: fibonacci, with a1 = " << y << ", and a2 = " << x << '\n'; break;
+                case 'x': std::cout << "Sequence type: arithmetic squares\n"; break;
+                case 'y': std::cout << "Sequence type: harmonic squares\n"; break;
+                case 'z': std::cout << "Sequence type: fibonacci squares, with a1 = " << pow(y,2) << ", and a2 = " << pow(x,2) << '\n'; break;
+                case 't': std::cout << "Sequence type: arithmetic cubes\n"; break;
+                case 'u': std::cout << "Sequence type: harmonic cubes\n"; break;
+                case 'v': std::cout << "Sequence type: fibonacci cubes, with a1 = " << pow(y,3) << ", and a2 = " << pow(x,3) << '\n'; break;
             }
         }
         else if (c == '2') {
             if (ch == 'a') {
-                printf("Common difference: %f\n", cd);
+                std::cout << "Common difference: " << cd << '\n';
             }
             else
-                printf("Sequence is not an arithmetic sequence. Enter 1 to view type\n");
+                std::cout << "Sequence is not an arithmetic sequence. Enter 1 to view type\n";
         }
         else if (c == '3') {
             if (ch == 'g') {
-                printf("Common ratio: %f\n", cr);
+                std::cout << "Common ratio: " << cr << '\n';
             }
             else
-                printf("Sequence is not a geometric sequence. Enter 1 to view type\n");
+                std::cout << "Sequence is not a geometric sequence. Enter 1 to view type\n";
         }
         else if (c == '4') {
             double p;
             switch(ch) {
-                case 'g': printf("Next term: %f\n", next); next = next * cr; break;
-                case 'a': printf("Next term: %f\n", next); next = next + cd; break;
-                case 'h': printf("Next term: 1/%d\n", int(round(1/next))); next = 1/(1/next + hd); break;
+                case 'g': std::cout << "Next term: " << next << '\n'; next = next * cr; break;
+                case 'a': std::cout << "Next term: " << next << '\n'; next = next + cd; break;
+                case 'h': std::cout << "Next term: 1/" << (sz)(round(1/next)) << '\n'; next = 1/(1/next + hd); break;
                 case 'f':
                     if (isStdFib)
-                        printf("Next term is: %d\n", int(round(next)));
+                        std::cout << "Next term: " << (sz)(round(next)) << '\n';
                     else
-                        printf("Next term: %f\n", next);
+                        std::cout << "Next term: " << next << '\n';
                     p = next; next += prev; prev = p; break;
-                case 'x': printf("Next term: %f\n", pow(next,2)); next = next + cd; break;
-                case 'y': printf("Next term: 1/%d\n", int(pow(round(1/next),2))); next = 1/(1/next + hd); break;
+                case 'x': std::cout << "Next term: " << pow(next,2) << '\n'; next = next + cd; break;
+                case 'y': std::cout << "Next term: 1/" << (sz)(pow(round(1/next),2)) << '\n'; next = 1/(1/next + hd); break;
                 case 'z':
                     if (isStdFib)
-                        printf("Next term is: %d\n", int(pow(round(next),2)));
+                        std::cout << "Next term: " << (sz)(pow(round(next),2)) << '\n';
                     else
-                        printf("Next term: %f\n", pow(next, 2));
+                        std::cout << "Next term: " << pow(next, 2) << '\n';
                     p = next; next += prev; prev = p; break;
-                case 't': printf("Next term: %f\n", pow(next,3)); next = next + cd; break;
-                case 'u': printf("Next term: 1/%d\n", int(pow(round(1/next),3))); next = 1/(1/next + hd); break;
+                case 't': std::cout << "Next term: " << pow(next,3) << '\n'; next = next + cd; break;
+                case 'u': std::cout << "Next term: 1/" << (sz)(pow(round(1/next),3)) << '\n'; next = 1/(1/next + hd); break;
                 case 'v':
                     if (isStdFib)
-                        printf("Next term is: %d\n", int(pow(round(next),3)));
+                        std::cout << "Next term: " << (sz)(pow(round(next),3)) << '\n';
                     else
-                        printf("Next term: %f\n", pow(next, 3));
+                        std::cout << "Next term: " << pow(next, 3) << '\n';
                     p = next; next += prev; prev = p; break;
             }
         }
@@ -335,136 +335,136 @@ void seq(double vals[], int n) {
                 case 'g':
                     f = vals[n-1]/cr;
                     if (fabs(f - 1) < 0.0000001)
-                        printf("Nth term: %f ^ n\n", cr);
+                        std::cout << "Nth term: " << cr << "^ n\n";
                     else
-                        printf("Nth term: %f * (%f ^ n)\n", f, cr);
+                        std::cout << "Nth term: " << f << " * (" << cr << " ^ n)\n";
                     break;
                 case 'a':
                     f = vals[n-1] - cd;
                     if (fabs(f - 0.0) < 0.0000001)
-                        printf("Nth term: %f * n\n", cd);
+                        std::cout << "Nth term: " << cd << " * n\n";
                     else
-                        printf("Nth term: %f + (%f * n)\n", f, cd);
+                        std::cout << "Nth term: " << f << " + (" << cd << " * n)\n";
                     break;
                 case 'h':
                     f = 1/vals[n-1] - hd;
                     if (fabs(f - 0.0) < 0.0000001)
-                        printf("Nth term: 1/(%f * n)\n", hd);
+                        std::cout << "Nth term: 1/(" << hd << " * n)\n";
                     else
-                        printf("Nth term: 1/(%f + (%f * n))\n", f, hd);
+                        std::cout << "Nth term: 1/(" << f << " + (" << hd << " * n))\n";
                     break;
                 case 'f':
                     if (isStdFib)
-                        printf("Nth term: (phi^(n+%d) - (-phi)^(n+%d))/sqrt(5) where phi = (1+sqrt(5))/2 and -phi = (1-sqrt(5))/2\n", k,k);
+                        std::cout << "Nth term: (phi^(n+" << k << ") - (-phi)^(n+" << k << "))/sqrt(5) where phi = (1+sqrt(5))/2 and -phi = (1-sqrt(5))/2\n";
                     else
-                        printf("Nth term: (N - 1)th term - (N - 2)th term\n");
+                        std::cout << "Nth term: (N - 1)th term - (N - 2)th term\n";
                     break;
                 case 'x':
                     f = sqrt(vals[n-1]) - cd;
                     if (fabs(f - 0.0) < 0.0000001)
-                        printf("Nth term: (%f * n)^2\n", cd);
+                        std::cout << "Nth term: (" << cd << " * n)^2\n";
                     else
-                        printf("Nth term: (%f + (%f * n))^2\n", f, cd);
+                        std::cout << "Nth term: (" << f << " + (" << cd << " * n))^2\n";
                     break;
                 case 'y':
                     f = 1/sqrt(vals[n-1]) - hd;
                     if (fabs(f - 0.0) < 0.0000001)
-                        printf("Nth term: 1/(%f * n)^2\n", hd);
+                        std::cout << "Nth term: 1/" << hd << " * n)^2\n";
                     else
-                        printf("Nth term: 1/(%f + (%f * n))^2\n", f, hd);
+                        std::cout << "Nth term: 1/(" << f << " + (" << hd << " * n))^2\n";
                     break;
                 case 'z':
                     if (isStdFib)
-                        printf("Nth term: ((phi^(n+%d) - (-phi)^(n+%d))^2)/5 where phi = (1+sqrt(5))/2 and -phi = (1-sqrt(5))/2\n", k, k);
+                        std::cout << "Nth term: ((phi^(n+" << k << ") - (-phi)^(n+" << k << "))^2)/5 where phi = (1+sqrt(5))/2 and -phi = (1-sqrt(5))/2\n";
                     else
-                        printf("Nth term: (sqrt(N - 1)th term - sqrt(N - 2)th term)^2\n");
+                        std::cout << "Nth term: (sqrt(N - 1)th term - sqrt(N - 2)th term)^2\n";
                     break;
                 case 't':
                     f = pow(vals[n-1], 1.0/3) - cd;
                     if (fabs(f - 0.0) < 0.0000001)
-                        printf("Nth term: (%f * n)^3\n", cd);
+                        std::cout << "Nth term: " << cd << " * n)^3\n";
                     else
-                        printf("Nth term: (%f + (%f * n))^3\n", f, cd);
+                        std::cout << "Nth term: (" << f << " + (" << cd << " * n))^3\n";
                     break;
                 case 'u':
                     f = 1/pow(vals[n-1], 1.0/3) - hd;
                     if (fabs(f - 0.0) < 0.0000001)
-                        printf("Nth term: 1/(%f * n)^3\n", hd);
+                        std::cout << "Nth term: 1/(" << hd << " * n)^3\n";
                     else
-                        printf("Nth term: 1/(%f + (%f * n))^3\n", f, hd);
+                        std::cout << "Nth term: 1/(" << f << " + (" << hd << " * n))^3\n";
                     break;
                 case 'v':
                     if (isStdFib)
-                        printf("Nth term: ((phi^(n+%d) - (-phi)^(n+%d))/sqrt(5))^3 where phi = (1+sqrt(5))/2 and -phi = (1-sqrt(5))/2\n" , k, k);
+                        std::cout << "Nth term: ((phi^(n+" << k << ") - (-phi)^(n+" << k << "))/sqrt(5))^3 where phi = (1+sqrt(5))/2 and -phi = (1-sqrt(5))/2\n";
                     else
-                        printf("Nth term: (cbrt(N - 1)th term - cbrt(N - 2)th term)^3\n");
+                        std::cout << "Nth term: (cbrt(N - 1)th term - cbrt(N - 2)th term)^3\n";
                     break;
             }
         }
         else if (c == '6') {
-            printf("Enter index: ");
-            int v; scanf("%d",&v);
-            getchar();
+            std::cout << "Enter index: ";
+            int v;
+            std::cin >> v;
             while (v < 1) {
-                printf("Index can not be less than 1. Enter an index: ");
-                scanf("%d",&v); getchar();
+                std::cout << "Index can not be less than 1. Enter an index: ";
+                std::cin >> v;
             }
             double f;
             switch(ch) {
                 case 'g':
                     f = vals[n-1] * pow(cr, v-1);
-                    printf("Value at index %d is: %f\n", v, f); break;
+                    std::cout << "Value at index " << v << " is: " << f << '\n'; break;
                 case 'a':
                     f = vals[n-1] + (cd * (v-1));
-                    printf("Value at index %d is: %f\n", v, f); break;
+                    std::cout << "Value at index " << v << " is: " << f << '\n'; break;
                 case 'h':
                     f = 1/vals[n-1] + (hd * (v-1));
-                    printf("Value at index %d is: 1/%d\n", v, int(round(f))); break;
+                    std::cout << "Value at index " << v << " is: 1/" << (sz)(round(f)) << '\n'; break;
                 case 'f':
                     if (isStdFib) {
-                        printf("Value at index %d is: %d\n", v, stdfib(v+k));
+                        std::cout << "Value at index " << v << " is: " << stdfib(v+k) << '\n';
                     }
                     else
-                        printf("Value at index %d is: %f\n", v, fib(vals[n-1], vals[n-2], v));
+                        std::cout << "Value at index " << v << " is: " << fib(vals[n-1], vals[n-2], v) << '\n';
                     break;
                 case 'x':
                     f = sqrt(vals[n-1]) + (cd * (v-1));
-                    printf("Value at index %d is: %f\n", v, pow(f,2)); break;
+                    std::cout << "Value at index " << v << " is: " << pow(f,2) << '\n'; break;
                 case 'y':
                     f = 1/sqrt(vals[n-1]) + (hd * (v-1));
-                    printf("Value at index %d is: 1/%d\n", v, int(round(pow(f,2)))); break;
+                    std::cout << "Value at index " << v << " is: 1/" << (sz)(round(pow(f,2))) << '\n'; break;
                 case 'z':
                     if (isStdFib) {
-                        printf("Value at index %d is: %d\n", v, int(pow(stdfib(n+k+1), 2)));
+                        std::cout << "Value at index " << v << " is: " << (sz)(pow(stdfib(n+k+1), 2)) << '\n';
                     }
                     else
-                        printf("Value at index %d is: %f\n", v, pow(fib(sqrt(vals[n-1]), sqrt(vals[n-2]), v), 2));
+                        std::cout << "Value at index " << v << " is: " << pow(fib(sqrt(vals[n-1]), sqrt(vals[n-2]), v), 2) << '\n';
                     break;
                 case 't':
                     f = pow(vals[n-1], 1.0/3) + (cd * (v-1));
-                    printf("Value at index %d is: %f\n", v, pow(f,3)); break;
+                    std::cout << "Value at index " << v << " is: " << pow(f,3) << '\n'; break;
                 case 'u':
                     f = 1/pow(vals[n-1], 1.0/3) + (hd * (v-1));
-                    printf("Value at index %d is: 1/%d\n", v, int(round(pow(f,3)))); break;
+                    std::cout << "Value at index " << v << " is: 1/" << (sz)(round(pow(f,3))) << '\n'; break;
                 case 'v':
                     if (isStdFib) {
-                        printf("Value at index %d is: %d\n", v, int(pow(stdfib(n+k+1), 3)));
+                        std::cout << "Value at index " << v << " is: " << (sz)(pow(stdfib(n+k+1), 3)) << '\n';
                     }
                     else
-                        printf("Value at index %d is: %f\n", v, pow(fib(pow(vals[n-1], 1.0/3), pow(vals[n-2], 1.0/3), v), 3));
+                        std::cout << "Value at index " << v << " is: " << pow(fib(sqrt(vals[n-1]), sqrt(vals[n-2]), v), 3) << '\n';
                     break;
             }
         }
         else if (c == '7') {
-            printf("Enter end index. Enter -999 for infinity: ");
+            std::cout << "Enter end index. Enter -999 for infinity: ";
             int v;
             bool isINF = false;
-            scanf("%d",&v); getchar();
+            std::cin >> v;
             if (v == -999)
                 isINF = true;
             while ((v <= 0) && !isINF) {
-                printf("Invalid index. Enter an index > 0 or -999 for infinity");
-                scanf("%d",&v); getchar();
+                std::cout << "Invalid index. Enter an index > 0 or -999 for infinity";
+                std::cin >> v;
                 if (v == -999)
                     isINF = true;
             }
@@ -472,115 +472,111 @@ void seq(double vals[], int n) {
             switch(ch) {
                 case 'g':
                     if (fabs(cr - 1) < 0.0000001) {
-                        printf("Unable to calculate sum. Common ratio cannot be equal to 1\n");
+                        std::cout << "Unable to calculate sum. Common ratio cannot be equal to 1\n";
                         continue;
                     }
                     if(!isINF)
                         f = (vals[n-1] * (1 - pow(cr, v)))/(1-cr);
                     else
                         f = (vals[n-1])/(1-cr);
-                    printf("Sum: %.10e\n", f);
-                    break;
+                    std::cout << "Sum: " << f << '\n'; break;
                 case 'a':
                     if (isINF) {
-                        printf("Sum of an arithmetic sequence requires a finite endpoint\n");
+                        std::cout << "Sum of an arithmetic sequence requires a finite endpoint\n";
                         continue;
                     }
                     f = v * (vals[n-1] + (cd * (v-1))/2);
-                    printf("Sum: %.10e\n", f);
-                    break;
+                    std::cout << "Sum: " << f << '\n'; break;
                 case 'h':
                     if (isINF) {
-                        printf("Sum of a harmonic sequence requires a finite endpoint\n");
+                        std::cout << "Sum of a harmonic sequence requires a finite endpoint\n";
                         continue;
                     }
                     if (v < 100000000) {
-                        printf("Sum: %.10e\n", sumHarmonic(vals[n-1], hd, v));
+                        std::cout << "Sum: " << sumHarmonic(vals[n-1], hd, v) << '\n';
                         continue;
                     }
                     if (fabs(hd - 1) < 0.0000001) {
                         gamma = 0.577215664901532860606512090082;   //Euler–Mascheroni constant
                         f = log(v) + gamma + 1.0/(2*v);             //Sum(1:k, 1/n) = ln(k) + gamma + Ek (Ek ~= 1/2k)
-                        printf("Sum is approximately: %.10e\n", f);
+                        std::cout << "Sum is approximately: " << f << '\n';
                         continue;
                     }
-                    printf("Can not perform calculation. End Index must be less than 10^8\n");
+                    std::cout << "Can not perform calculation. End Index must be less than 10^8\n";
                     break;
                 case 'f':
                     if (isINF) {
-                        printf("Sum of a fibonacci sequence requires a finite endpoint\n");
+                        std::cout << "Sum of a fibonacci sequence requires a finite endpoint\n";
                         continue;
                     }
                     if (v < 1000) {
                         if (isStdFib)
-                            printf("Sum: %d\n", stdfibSum(v+k, k));
+                            std::cout << "Sum: " << stdfibSum(v+k, k) << '\n';
                         else
-                            printf("Sum: %.10e\n", fibSum(v, vals[n-1], vals[n-2]));
+                            std::cout << "Sum: " << fibSum(v, vals[n-1], vals[n-2]) << '\n';
                         continue;
                     }
-                    printf("Can not perform calculation. End Index must be less than 1000\n");
-                    break;
+                    std::cout << "Can not perform calculation. End Index must be less than 1000\n";
                 case 'x':
                     if (isINF) {
-                        printf("Sum of arithmetic squares sequence requires a finite endpoint\n");
+                        std::cout << "Sum of arithmetic squares sequence requires a finite endpoint\n";
                         continue;
                     }
-                    printf("Sum: %.10e\n", sumArrSquares(vals[n-1], cd, v)); break;
+                    std::cout << "Sum: " << sumArrSquares(vals[n-1], cd, v) << '\n'; break;
                 case 'y':
                     if (isINF) {
-                        printf("Sum of harmonic squares sequence requires a finite endpoint\n");
+                        std::cout << "Sum of harmonic squares sequence requires a finite endpoint\n";
                         continue;
                     }
                     if (v > 30000)
-                        printf("Sum is approximately: %f\n", sumHarSquares(vals[n-1], hd, 30000));
+                        std::cout << "Sum is approximately: " << sumHarSquares(vals[n-1], hd, 30000) << '\n';
                     else
-                        printf("Sum is: %f", sumHarSquares(vals[n-1], hd, v)); break;
+                        std::cout << "Sum: " << sumHarSquares(vals[n-1], hd, v) << '\n'; break;
                 case 'z':
                     if (isINF) {
-                        printf("Sum of fibonacci squares sequence requires a finite endpoint\n");
+                        std::cout << "Sum of fibonacci squares sequence requires a finite endpoint\n";
                         continue;
                     }
                     if (v < 1000) {
                         if (isStdFib)
-                            printf("Sum: %d\n", sumStdFibSquares(v+k, k));
+                            std::cout << "Sum: " << sumStdFibSquares(v+k, k) << '\n';
                         else
-                            printf("Sum: %.10e\n", sumFibSquares(v, vals[n-1], vals[n-2]));
+                            std::cout << "Sum: " << sumFibSquares(v, vals[n-1], vals[n-2]) << '\n';
                         continue;
                     }
-                    printf("Can not perform calculation. End Index must be less than 1000\n");
+                    std::cout << "Can not perform calculation. End Index must be less than 1000\n";
                     break;
                 case 't':
                     if (isINF) {
-                        printf("Sum of arithmetic cubes sequence requires a finite endpoint\n");
+                        std::cout << "Sum of arithmetic cubes sequence requires a finite endpoint\n";
                         continue;
                     }
-                    printf("Sum: %.10e\n", sumArrCubes(vals[n-1], cd, v)); break;
+                    std::cout << "Sum: " << sumArrCubes(vals[n-1], cd, v) << '\n'; break;
                 case 'u':
                     if (isINF) {
-                        printf("Sum of harmonic cubes sequence requires a finite endpoint\n");
+                        std::cout << "Sum of harmonic cubes sequence requires a finite endpoint\n";
                         continue;
                     }
                     if (v < 100000000) {
-                        printf("Sum: %.10e\n", sumHarCubes(vals[n-1], hd, v));
+                        std::cout << "Sum: " << sumHarCubes(vals[n-1], hd, v) << '\n';
                         continue;
                     }
                     else
-                        printf("Can not perform calculation. End Index must be less than 10^8\n"); break;
+                        std::cout << "Can not perform calculation. End Index must be less than 10^8\n"; break;
                 case 'v':
                     if (isINF) {
-                        printf("Sum of fibonacci cubes sequence requires a finite endpoint\n");
+                        std::cout << "Sum of fibonacci cubes sequence requires a finite endpoint\n";
                         continue;
                     }
                     if (v < 1000) {
-                        printf("Sum: %.10e\n", sumFibCubes(v, vals[n-1], vals[n-2]));
+                        std::cout << "Sum: " << sumFibCubes(v, vals[n-1], vals[n-2]) << '\n';
                         continue;
                     }
-                    printf("Can not perform calculation. End Index must be less than 1000\n");
+                    std::cout << "Can not perform calculation. End Index must be less than 1000\n";
                     break;
             }
-            
         }
         else
-            printf("Invalid selection. Enter # to view options\n");
+            std::cout << "Invalid selection. Enter ? to view options\n";
     }
 }
